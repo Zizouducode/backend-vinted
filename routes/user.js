@@ -98,7 +98,7 @@ router.post("/user/login", async (req, res) => {
     //Get user
     userToLogIn = await User.findOne({ email: email });
     //Check if user exists
-    if (userToLogIn.length === 0) {
+    if (!userToLogIn) {
       return res.status(401).json({ message: "Invalid credentials" });
     }
     //Check if hash is the same
