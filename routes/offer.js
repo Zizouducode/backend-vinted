@@ -66,7 +66,7 @@ router.post(
       if (req.files) {
         // Convert img to Base64 for cloudinary
         const pictureConverted = convertToBase64(req.files.picture);
-        console.log("je suis ici ");
+        // console.log("je suis ici ");
         //Send img to cloudinary
         const offerId = newOffer._id;
         const image = await cloudinary.uploader.upload(pictureConverted, {
@@ -278,7 +278,7 @@ router.get("/offer/:id", async (req, res) => {
       "account"
     );
 
-    return res.status(400).json({
+    return res.status(200).json({
       offer,
     });
   } catch (error) {
