@@ -243,7 +243,7 @@ router.get("/offers", async (req, res) => {
 
     //Pagination
     let skip = 0;
-    const limit = 5;
+    const limit = 100;
     if (page === "1" || !page) {
       skip = skip;
     } else {
@@ -255,7 +255,7 @@ router.get("/offers", async (req, res) => {
       .populate("owner", "account.username")
       .sort(sorting)
       .skip(skip)
-      .limit(5);
+      .limit(limit);
     //.select("product_name product_price -_id owner");
 
     //Get total offers
