@@ -4,8 +4,16 @@ const router = express.Router();
 const stripe = require("stripe")(
   "sk_test_51M4OpMCacX0zWTEQk37OZgvdNhYJc9npcLsoKABny9wHb4Nei8ugUBqZlBfl3JT8LGHHM0yVRr1ASQwP3MdzS0Se00QmPs1NRy"
 );
-
+const cloudinary = require("cloudinary").v2;
 const Offer = require("../models/Offer");
+
+//Connect to cloudinary
+//Connect to cloudinary
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 //Payment route
 router.post("/payment", async (req, res) => {
@@ -25,10 +33,18 @@ router.post("/payment", async (req, res) => {
       source: stripeToken,
     });
     console.log(response);
-    //Delete offer
+    //Delete offer in DB and image on Cloudinary
     // const responseDelete = await axios.delete
-
-    res.status(200).json(responseOffer);
+    if (responseOffer.product_image) {
+      const imageToDelete = await cloudinary.uploader.destroy(
+        responseOffer.product_image.public_id
+      );
+      const folderToDelete = await cloudinary.api.delete_folder(
+        responseOffer.product_image.folder
+      );
+    }
+    await Offer.findOneAndDelete(req.body.offerId);
+    res.status(200).json(response);
   } catch (error) {
     console.log(error);
     res.status(400).json({ error: error.message });
