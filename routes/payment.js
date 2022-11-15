@@ -35,15 +35,15 @@ router.post("/payment", async (req, res) => {
     console.log(response.status);
     //Delete offer in DB and image on Cloudinary
     // const responseDelete = await axios.delete
-    if (responseOffer.product_image) {
-      const imageToDelete = await cloudinary.uploader.destroy(
-        responseOffer.product_image.public_id
-      );
-      const folderToDelete = await cloudinary.api.delete_folder(
-        responseOffer.product_image.folder
-      );
-    }
-    const offerDeleted = await Offer.findOneAndDelete(req.body.offerId);
+    // if (responseOffer.product_image) {
+    //   const imageToDelete = await cloudinary.uploader.destroy(
+    //     responseOffer.product_image.public_id
+    //   );
+    //   const folderToDelete = await cloudinary.api.delete_folder(
+    //     responseOffer.product_image.folder
+    //   );
+    // }
+    // const offerDeleted = await Offer.findOneAndDelete(req.body.offerId);
     console.log(offerDeleted);
     res.status(200).json(response.status);
   } catch (error) {
