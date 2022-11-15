@@ -27,12 +27,12 @@ router.post("/payment", async (req, res) => {
     const stripeToken = req.body.stripeToken;
     // console.log(req.body.stripeToken);
     const response = await stripe.charges.create({
-      amount: responseOffer.product_price * 100,
+      amount: req.body.total * 100,
       currency: "eur",
       description: responseOffer.product_name,
       source: stripeToken,
     });
-    console.log(response);
+    console.log(response.status);
     //Delete offer in DB and image on Cloudinary
     // const responseDelete = await axios.delete
     if (responseOffer.product_image) {
@@ -43,7 +43,8 @@ router.post("/payment", async (req, res) => {
         responseOffer.product_image.folder
       );
     }
-    await Offer.findOneAndDelete(req.body.offerId);
+    const offerDeleted = await Offer.findOneAndDelete(req.body.offerId);
+    console.log(offerDeleted);
     res.status(200).json(response);
   } catch (error) {
     console.log(error);
