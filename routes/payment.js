@@ -1,9 +1,8 @@
 //Imports
 const express = require("express");
 const router = express.Router();
-const stripe = require("stripe")(
-  "sk_test_51M4OpMCacX0zWTEQk37OZgvdNhYJc9npcLsoKABny9wHb4Nei8ugUBqZlBfl3JT8LGHHM0yVRr1ASQwP3MdzS0Se00QmPs1NRy"
-);
+const stripe = require("stripe")(process.env.STRIPE_API_SECRET);
+
 const cloudinary = require("cloudinary").v2;
 const Offer = require("../models/Offer");
 
