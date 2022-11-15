@@ -242,7 +242,7 @@ router.get("/offers", async (req, res) => {
     //console.log(filters);
 
     //Pagination
-    const limit = 10;
+    const limit = 8;
     let skip = 0;
 
     let productToReturn = viewMore * limit;
