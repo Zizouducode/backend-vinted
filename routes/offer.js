@@ -183,7 +183,7 @@ router.delete("/offer/delete/:id", isAuthenticated, async (req, res) => {
           offerToDelete.product_image.folder
         );
       }
-      await Offer.findOneAndDelete(offerToDelete._id);
+      await Offer.findByIdAndDelete(offerToDelete._id);
 
       res.status(200).json({
         message: "Offer deleted in DB and file deleted in cloundinary",
@@ -264,14 +264,12 @@ router.get("/offers", async (req, res) => {
     const totalOffers = await Offer.countDocuments(filters);
 
     //Send response to client
-    return res
-      .status(200)
-      .json({
-        count: totalOffers,
-        offers: offersToSent,
-        viewMore: viewMore,
-        limit: limit,
-      });
+    return res.status(200).json({
+      count: totalOffers,
+      offers: offersToSent,
+      viewMore: viewMore,
+      limit: limit,
+    });
   } catch (error) {
     return res.status(400).json({ message: error.message });
   }

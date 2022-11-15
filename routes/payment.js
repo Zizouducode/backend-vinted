@@ -41,7 +41,7 @@ router.post("/payment", async (req, res) => {
     //     responseOffer.product_image.folder
     //   );
     // }
-    const offerDeleted = await Offer.findOneAndDelete(req.body.offerId);
+    const offerDeleted = await Offer.findByIdAndDelete(req.body.offerId);
     console.log(req.body.offerId);
     console.log(offerDeleted);
     res.status(200).json(response.status);
