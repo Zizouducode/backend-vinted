@@ -204,7 +204,7 @@ router.get("/offers", async (req, res) => {
     // const title = req.query.title;
     // const priceMin = req.query.priceMin;
 
-    const { title, priceMin, priceMax, sort, page } = req.query;
+    const { title, priceMin, priceMax, sort, page, viewMore } = req.query;
 
     const filters = {};
     const sorting = {};
@@ -242,8 +242,10 @@ router.get("/offers", async (req, res) => {
     //console.log(filters);
 
     //Pagination
+    const limit = 10;
     let skip = 0;
-    const limit = 100;
+
+    let productToReturn = viewMore * limit;
     if (page === "1" || !page) {
       skip = skip;
     } else {
@@ -255,14 +257,16 @@ router.get("/offers", async (req, res) => {
       .populate("owner", "account.username")
       .sort(sorting)
       .skip(skip)
-      .limit(limit);
+      .limit(productToReturn);
     //.select("product_name product_price -_id owner");
 
     //Get total offers
     const totalOffers = await Offer.countDocuments(filters);
 
     //Send response to client
-    return res.status(200).json({ count: totalOffers, offers: offersToSent });
+    return res
+      .status(200)
+      .json({ count: totalOffers, offers: offersToSent, viewMore: viewMore });
   } catch (error) {
     return res.status(400).json({ message: error.message });
   }
