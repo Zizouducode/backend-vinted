@@ -3,16 +3,15 @@ const express = require("express");
 const router = express.Router();
 const stripe = require("stripe")(process.env.STRIPE_API_SECRET);
 
-const cloudinary = require("cloudinary").v2;
+// const cloudinary = require("cloudinary").v2;
 const Offer = require("../models/Offer");
 
 //Connect to cloudinary
-//Connect to cloudinary
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
-});
+// cloudinary.config({
+//   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+//   api_key: process.env.CLOUDINARY_API_KEY,
+//   api_secret: process.env.CLOUDINARY_API_SECRET,
+// });
 
 //Payment route
 router.post("/payment", async (req, res) => {
@@ -33,7 +32,7 @@ router.post("/payment", async (req, res) => {
     });
     console.log(response.status);
     //Delete offer in DB and image on Cloudinary
-    // const responseDelete = await axios.delete
+
     // if (responseOffer.product_image) {
     //   const imageToDelete = await cloudinary.uploader.destroy(
     //     responseOffer.product_image.public_id
@@ -42,8 +41,8 @@ router.post("/payment", async (req, res) => {
     //     responseOffer.product_image.folder
     //   );
     // }
-    // const offerDeleted = await Offer.findOneAndDelete(req.body.offerId);
-    // console.log(offerDeleted);
+    const offerDeleted = await Offer.findOneAndDelete(req.body.offerId);
+    console.log(offerDeleted);
     res.status(200).json(response.status);
   } catch (error) {
     console.log(error);
