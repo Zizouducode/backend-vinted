@@ -266,7 +266,12 @@ router.get("/offers", async (req, res) => {
     //Send response to client
     return res
       .status(200)
-      .json({ count: totalOffers, offers: offersToSent, viewMore: viewMore });
+      .json({
+        count: totalOffers,
+        offers: offersToSent,
+        viewMore: viewMore,
+        limit: limit,
+      });
   } catch (error) {
     return res.status(400).json({ message: error.message });
   }
