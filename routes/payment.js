@@ -12,24 +12,23 @@ router.post("/payment", async (req, res) => {
   //Send payment request to stripe
   try {
     //Get offer details from DB
-
     console.log(req.body);
-    const responseOffer = await Offer.findById(req.body.offerId);
+    const responseOffer = await Offer.findById("6352a3bcf0007cfd97ea9dca");
     console.log(responseOffer);
     // console.log(responseOffer.data.offer.product_price);
-    const stripeToken = req.body.stripeToken;
-    console.log(req.body.stripeToken);
-    const response = await stripe.charges.create({
-      amount: responseOffer.data.offer.product_price * 100,
-      currency: "eur",
-      description: responseOffer.data.offer.product_name,
-      source: stripeToken,
-    });
+    // const stripeToken = req.body.stripeToken;
+    // console.log(req.body.stripeToken);
+    // const response = await stripe.charges.create({
+    //   amount: responseOffer.data.offer.product_price * 100,
+    //   currency: "eur",
+    //   description: responseOffer.data.offer.product_name,
+    //   source: stripeToken,
+    // });
     // console.log(response);
     //Delete offer
     // const responseDelete = await axios.delete
 
-    res.status(200).json(response.status);
+    res.status(200).json(responseOffer);
   } catch (error) {
     console.log(error);
     res.status(400).json({ error: error.message });
